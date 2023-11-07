@@ -1,0 +1,16 @@
+.message-balloon {
+    -fx-padding: 5px;
+    -fx-spacing: 10px;
+}
+
+.sent-message {
+    -fx-background-color: #e7f5fe;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+}
+
+.received-message {
+    -fx-background-color: #d5e8d4;
+    -fx-border-radius: 15px;
+    -fx-background-radius: 15px;
+}
