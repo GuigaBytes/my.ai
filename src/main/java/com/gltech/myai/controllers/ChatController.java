@@ -133,14 +133,15 @@ public class ChatController {
 
     // Criar os itens do menu com um método que trata a seleção do modelo
     RadioMenuItem itemDavinci = createModelMenuItem(ModelType.DAVINCI, modelsGroup);
-    RadioMenuItem itemGPT35Turbo = createModelMenuItem(ModelType.GPT_TURBO, modelsGroup);
-    itemGPT35Turbo.setSelected(true); // Este é o default
+//    RadioMenuItem itemGPT35Turbo = createModelMenuItem(ModelType.GPT_TURBO, modelsGroup);
     RadioMenuItem itemCurie = createModelMenuItem(ModelType.CURIE, modelsGroup);
     RadioMenuItem itemBabbage = createModelMenuItem(ModelType.BABBAGE, modelsGroup);
     RadioMenuItem itemAda = createModelMenuItem(ModelType.ADA, modelsGroup);
+    itemAda.setSelected(true); // Este é o default
 
     // Adicionando todos os RadioMenuItems ao menu "Modelos"
-    menuModels.getItems().addAll(itemDavinci, itemGPT35Turbo, itemCurie, itemBabbage, itemAda);
+//    menuModels.getItems().addAll(itemDavinci, itemGPT35Turbo, itemCurie, itemBabbage, itemAda);
+    menuModels.getItems().addAll(itemDavinci, itemCurie, itemBabbage, itemAda);
 
     // Adicionando o menu "Modelos" à barra de menu
     menuBar.getMenus().add(menuModels);

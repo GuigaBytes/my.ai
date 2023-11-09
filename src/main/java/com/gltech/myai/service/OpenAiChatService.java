@@ -45,8 +45,9 @@ public class OpenAiChatService {
         System.out.println("Selected model: " + model);
         System.out.println("Context: " + internalContext);
 
-        return model.equals(ModelType.GPT_TURBO.toString()) ?
-                handleChatCompletion() : handleRegularCompletion();
+//        return model.equals(ModelType.GPT_TURBO.toString()) ?
+//                handleChatCompletion() : handleRegularCompletion();
+        return handleRegularCompletion();
     }
 
     private void updateInternalContext(String message) {
