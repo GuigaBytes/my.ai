@@ -5,15 +5,14 @@ import com.gltech.myai.components.StatusIndicator;
 import com.gltech.myai.components.InputField;
 import com.gltech.myai.model.Message;
 import com.gltech.myai.model.MessageType;
+import com.gltech.myai.model.ModelType;
 import com.gltech.myai.service.MessageService;
 import com.gltech.myai.service.OpenAiChatService;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Priority;
@@ -58,7 +57,6 @@ public class ChatController {
         stage.setResizable(false);
 
         loadMessagesFromDatabase();
-
 
         hookEvents();
         stage.show();
@@ -119,13 +117,50 @@ public class ChatController {
     }
 
     private MenuBar createMenuBar() {
-        MenuBar menuBar = new MenuBar();
-        Menu menuFile = new Menu("File");
-        MenuItem itemAutoDestroy = new MenuItem("Apagar memória");
-        itemAutoDestroy.setOnAction(event -> autoDestroyMessages());
-        menuFile.getItems().add(itemAutoDestroy);
-        menuBar.getMenus().add(menuFile);
-        return menuBar;
+    MenuBar menuBar = new MenuBar();
+
+    // Menu "File" já existente
+    Menu menuFile = new Menu("File");
+    MenuItem itemAutoDestroy = new MenuItem("Apagar memória");
+    itemAutoDestroy.setOnAction(event -> autoDestroyMessages());
+    menuFile.getItems().add(itemAutoDestroy);
+
+    // Novo menu "Modelos"
+    Menu menuModels = new Menu("Modelos");
+
+    // Grupo de toggle para os RadioMenuItems
+    ToggleGroup modelsGroup = new ToggleGroup();
+
+    // Criar os itens do menu com um método que trata a seleção do modelo
+    RadioMenuItem itemDavinci = createModelMenuItem(ModelType.DAVINCI, modelsGroup);
+//    RadioMenuItem itemGPT35Turbo = createModelMenuItem(ModelType.GPT_TURBO, modelsGroup);
+    RadioMenuItem itemCurie = createModelMenuItem(ModelType.CURIE, modelsGroup);
+    RadioMenuItem itemBabbage = createModelMenuItem(ModelType.BABBAGE, modelsGroup);
+    RadioMenuItem itemAda = createModelMenuItem(ModelType.ADA, modelsGroup);
+    itemAda.setSelected(true); // Este é o default
+
+    // Adicionando todos os RadioMenuItems ao menu "Modelos"
+//    menuModels.getItems().addAll(itemDavinci, itemGPT35Turbo, itemCurie, itemBabbage, itemAda);
+    menuModels.getItems().addAll(itemDavinci, itemCurie, itemBabbage, itemAda);
+
+    // Adicionando o menu "Modelos" à barra de menu
+    menuBar.getMenus().add(menuModels);
+
+    // Adiciona o menu "File" à barra de menu
+    menuBar.getMenus().add(menuFile);
+
+    return menuBar;
+}
+
+    private RadioMenuItem createModelMenuItem(ModelType model, ToggleGroup group) {
+        RadioMenuItem menuItem = new RadioMenuItem(model.getLabel());
+        menuItem.setToggleGroup(group);
+        menuItem.setOnAction(event -> handleModelSelection(model));
+        return menuItem;
+    }
+
+    private void handleModelSelection(ModelType model) {
+        openAiChatService.setModel(model);
     }
 
     private void autoDestroyMessages() {
